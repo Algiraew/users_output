@@ -29,5 +29,27 @@ module.exports = {
       },
     ],
     "react/function-component-definition": "off",
+    "import/order": [
+      "error",
+      {
+        groups: [
+          ["external", "builtin"],
+          "internal",
+          ["parent", "sibling"],
+          "index",
+          "object",
+          "type",
+        ],
+        "newlines-between": "always",
+        pathGroupsExcludedImportTypes: ["internal"],
+        pathGroups: [
+          {
+            pattern: "react",
+            group: "external",
+            position: "before",
+          },
+        ],
+      },
+    ],
   },
 };
