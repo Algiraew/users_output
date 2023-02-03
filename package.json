@@ -20,6 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "linter": "eslint ./src --ext .js,.jsx",
+    "linter:fix": "eslint ./src --ext .js,.jsx --fix",
     "prettier": "prettier ./src --write"
   },
   "eslintConfig": {

@@ -55,8 +55,6 @@ const usersSlice = createSlice({
       })
       .addCase(getUsers.fulfilled, (state, action) => {
         state.users = action.payload;
-        // eslint-disable-next-line no-console
-        console.log(action);
         state.loading = false;
       })
       .addCase(getUsers.rejected, (state, action) => {
