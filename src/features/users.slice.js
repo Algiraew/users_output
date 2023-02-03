@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@redux/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialstate = {
+const initialState = {
   users: [],
   user: null,
   posts: [],
@@ -11,7 +11,7 @@ const initialstate = {
 export const getUsers = createAsyncThunk("get/users", async (_, thunkAPI) => {
   try {
     const res = await fetch("https://jsonplaceholder.typicode.com/users");
-    const users = res.json();
+    const users = await res.json();
     return users;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -21,7 +21,7 @@ export const getUsers = createAsyncThunk("get/users", async (_, thunkAPI) => {
 export const getUser = createAsyncThunk("get/user", async (id, thunkAPI) => {
   try {
     const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
-    const user = res.json();
+    const user = await res.json();
     return user;
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -35,7 +35,7 @@ export const getPostsByUserId = createAsyncThunk(
       const res = await fetch(
         `https://jsonplaceholder.typicode.com/users/${id}/posts`
       );
-      const posts = res.json();
+      const posts = await res.json();
       return posts;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -44,8 +44,8 @@ export const getPostsByUserId = createAsyncThunk(
 );
 
 const usersSlice = createSlice({
-  name: users,
-  initialstate,
+  name: "users",
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -53,8 +53,10 @@ const usersSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(getUsers.fullfilled, (state, action) => {
-        state.users = action.paylod;
+      .addCase(getUsers.fulfilled, (state, action) => {
+        state.users = action.payload;
+        // eslint-disable-next-line no-console
+        console.log(action);
         state.loading = false;
       })
       .addCase(getUsers.rejected, (state, action) => {

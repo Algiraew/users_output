@@ -12,7 +12,6 @@ module.exports = {
     "plugin:jsx-a11y/recommended",
     "plugin:import/recommended",
     "prettier",
-    "plugin:react-router-dom/recomended",
   ],
   overrides: [],
   parserOptions: {
@@ -22,5 +21,13 @@ module.exports = {
   plugins: ["react"],
   rules: {
     "no-console": "error",
+    "no-param-reassign": [
+      "error",
+      {
+        props: true,
+        ignorePropertyModificationsFor: ["state"],
+      },
+    ],
+    "react/function-component-definition": "off",
   },
 };
