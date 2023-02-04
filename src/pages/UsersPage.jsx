@@ -9,6 +9,7 @@ const UsersPage = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
   const [search, setSearch] = useState("");
+  const [city, setCity] = useState("");
 
   useEffect(() => {
     dispatch(getUsers());
@@ -18,20 +19,33 @@ const UsersPage = () => {
     user.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const chengeSelect = (e) => {
+    setCity(e.target.value);
+  };
+
+  const filteredUsersByCity = filteredUsers.filter(
+    (item) => item.address.city !== city
+  );
+
   return (
     <>
-      <form className="w-60 m-auto relative">
+      <form className="w-60 m-auto flex">
         <input
-          className="border-b-[1px] border-black p-1 w-60 my-2"
+          className="border-b-[1px] border-black p-1 w-60 my-2 mr-10"
           type="text"
           autoComplete="off"
           placeholder="Поиск..."
           onChange={(e) => setSearch(e.target.value)}
         />
+        <select value={city} onChange={(e) => chengeSelect(e)}>
+          {users.map((cities) => (
+            <option key={cities.id}>{cities.address.city}</option>
+          ))}
+        </select>
       </form>
 
       <div className="flex justify-between flex-wrap">
-        {filteredUsers.map((user) => (
+        {filteredUsersByCity.map((user) => (
           <Link to={String(user.id)} key={user.id}>
             <div className="border border-black w-60 px-1.5 py-1.5 mx-1 my-1">
               <p>{user.name}</p>
