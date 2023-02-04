@@ -6,17 +6,25 @@ const initialState = {
   posts: [],
   error: null,
   loading: false,
+  currentPage: 1,
+  perPage: 2,
+  totalCount: 10,
 };
 
-export const getUsers = createAsyncThunk("get/users", async (_, thunkAPI) => {
-  try {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users");
-    const users = await res.json();
-    return users;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error);
+export const getUsers = createAsyncThunk(
+  "get/users",
+  async (currentPage, thunkAPI) => {
+    try {
+      const res = await fetch(
+        `https://jsonplaceholder.typicode.com/users?_limit=2&_start=${currentPage}`
+      );
+      const users = await res.json();
+      return users;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 export const getUser = createAsyncThunk("get/user", async (id, thunkAPI) => {
   try {

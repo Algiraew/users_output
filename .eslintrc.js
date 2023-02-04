@@ -20,6 +20,7 @@ module.exports = {
   },
   plugins: ["react"],
   rules: {
+    "react/prop-types": "off",
     "no-console": "error",
     "no-param-reassign": [
       "error",

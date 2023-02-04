@@ -4,16 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { getUsers } from "../features/users.slice";
+import Pagination from "../components/Pagination";
 
 const UsersPage = () => {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.users);
+  const { users, totalCount, perPage } = useSelector((state) => state.users);
   const [search, setSearch] = useState("");
   const [city, setCity] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pages = totalCount / perPage;
 
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    dispatch(getUsers(currentPage));
+  }, [dispatch, currentPage]);
 
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(search.toLowerCase())
@@ -56,6 +59,11 @@ const UsersPage = () => {
           </Link>
         ))}
       </div>
+      <Pagination
+        pages={pages}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </>
   );
 };
